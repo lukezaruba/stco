@@ -14,3 +14,10 @@ repos:
     rev: v4.4.0
     hooks:
       - id: trailing-whitespace
+  - repo: local
+    hooks:
+      - id: run_tests
+        language: script
+        name: Run tests
+        entry: /bin/bash ./scripts/run_tests.sh
+        stage: [commit]
