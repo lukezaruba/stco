@@ -25,6 +25,7 @@
 
 """clustering.py: Implementation of A-DBSCAN on periods ("snapshots") of a time series for use in subsequent overlay analyses."""
 
+from math import pi, sqrt
 from typing import Union
 
 from esda.adbscan import ADBSCAN, get_cluster_boundary
@@ -37,36 +38,43 @@ class TemporalADBSCAN:
     def __init__(
         self,
         data: Union[DataFrame, GeoDataFrame],
-        adbscan: ADBSCAN,
         period: str,
+        eps: float,
+        min_sample_pct: float,
         time_field: str = "time",
         x_field: str = "X",
         y_field: str = "Y",
+        **kwargs,
     ) -> None:
         """
         Instantiates TemporalADBSCAN object to run snapshot-based A-DBSCAN.
 
         Args:
             data (Union[DataFrame, GeoDataFrame]): Input point features.
-            adbscan (ADBSCAN): ADBSCAN object from ESDA.
             period (str): Pandas/NumPy Period alias.
+            eps (float): Eps parameter for ADBSCAN, in the unit of the input dataset's coordinate system.
+            min_sample_pct (float): Percentage of the total points within each period to use as the minimum samples parameter in ADBSCAN.
             time_field (str, optional): Name of time field in data. Defaults to "time".
-            x_field (str, optional): Name of X coordinate field in data - not needed for GeoDataFrame inputs. Defaults to "x".
-            y_field (str, optional): Name of Y coordinate field in data - not needed for GeoDataFrame inputs. Defaults to "y".
+            x_field (str, optional): Name of X coordinate field in data - not needed for GeoDataFrame inputs. Defaults to "X".
+            y_field (str, optional): Name of Y coordinate field in data - not needed for GeoDataFrame inputs. Defaults to "Y".
         """
         if type(data) == GeoDataFrame:
             data = self._create_xy_series(data)
-
         self.data = self._check_data_types(data, time_field, x_field, y_field)
-        self.adbscan = (
-            adbscan
-            if isinstance(adbscan, ADBSCAN)
-            else TypeError("adbscan must be an ESDA.adbscan.ADBSCAN object.")
-        )
         self.period = self._check_period(period)
+        self.eps = eps
+        self.min_sample_pct = min_sample_pct
         self.time_field = time_field
         self.x_field = x_field
         self.y_field = y_field
+
+        # Handling other kwargs
+        self._adbscan_algorithm = kwargs.get("algorithm", "auto")
+        self._adbscan_n_jobs = kwargs.get("n_jobs", 1)
+        self._adbscan_pct_exact = kwargs.get("pct_exact", 0.1)
+        self._adbscan_reps = kwargs.get("reps", 100)
+        self._adbscan_keep_solus = kwargs.get("keep_solus", False)
+        self._adbscan_pct_thr = kwargs.get("pct_thr", 0.9)
 
     @staticmethod
     def _check_period(period_value: str) -> str:
@@ -198,14 +206,21 @@ class TemporalADBSCAN:
             filtered_data = self.data.loc[(self.data["PERIOD"] == step)].copy()
 
             # Fit Model
-            abdscan_copy = self.adbscan
+            abdscan = ADBSCAN(
+                self.eps,
+                filtered_data.shape[0] * self.min_sample_pct,
+                self._adbscan_algorithm,
+                self._adbscan_n_jobs,
+                self._adbscan_pct_exact,
+                self._adbscan_reps,
+                self._adbscan_keep_solus,
+                self._adbscan_pct_thr,
+            )
 
-            abdscan_copy.min_samples = filtered_data.shape[0] * 0.01
-
-            abdscan_copy.fit(filtered_data)
+            abdscan.fit(filtered_data)
 
             # Get Footprints
-            footprints = get_cluster_boundary(abdscan_copy.votes["lbls"], filtered_data)
+            footprints = get_cluster_boundary(abdscan.votes["lbls"], filtered_data)
 
             # Create Dictionary of Timestep Label & Footprints
             data = {"PERIOD": step, "geometry": footprints}
