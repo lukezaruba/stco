@@ -1,4 +1,4 @@
-name: Python Linter/Formatter/Tests/Coverage
+name: Tests
 
 on: [push]
 
