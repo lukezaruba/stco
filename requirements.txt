@@ -1,5 +1,6 @@
 black==23.11.0
 esda==2.5.1
+flake8
 geopandas==0.14.1
 numba==0.58.1
 numpy==1.26.2
