@@ -58,7 +58,7 @@ class TemporalADBSCAN:
             x_field (str, optional): Name of X coordinate field in data - not needed for GeoDataFrame inputs. Defaults to "X".
             y_field (str, optional): Name of Y coordinate field in data - not needed for GeoDataFrame inputs. Defaults to "Y".
         """
-        if type(data) == GeoDataFrame:
+        if type(data) is GeoDataFrame:
             data = self._create_xy_series(data)
         self.data = self._check_data_types(data, time_field, x_field, y_field)
         self.period = self._check_period(period)
