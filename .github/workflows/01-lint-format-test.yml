@@ -1,0 +1,36 @@
+name: Python Linter/Formatter/Tests
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.9", "3.10", "3.11"]
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v3
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: "pip"
+      - name: Install requirements
+        run: |
+          pip install -r requirements.txt
+      - name: Analysing code with flake8
+        run: |
+          flake8 $(git ls-files '*.py') --ignore=E203,E266,E501,W503,F403,F401
+      - name: Running tests
+        run: |
+          python -m unittest -v stco.tests.test_clustering
+          python -m unittest -v stco.tests.test_overlay
+
+  formatter:
+    name: Formatting with Black
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: rickstaa/action-black@v1
+        with:
+          black_args: ". --check"
