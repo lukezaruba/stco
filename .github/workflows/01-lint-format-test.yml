@@ -23,7 +23,8 @@ jobs:
           flake8 $(git ls-files '*.py') --ignore=E203,E266,E501,W503,F403,F401
       - name: Running tests
         run: |
-          python -m unittest discover -s stco.tests -t .
+          python -m unittest -v stco.tests.test_clustering
+          python -m unittest -v stco.tests.test_overlay
 
   formatter:
     name: Formatting with Black
