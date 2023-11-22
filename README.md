@@ -1,3 +1,11 @@
+![PyPI - Version](https://img.shields.io/pypi/v/stco)
+![CI - Test](https://github.com/lukezaruba/stco/actions/workflows/01-lint-format-test.yml/badge.svg)
+![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)
+
+![GitHub last commit](https://img.shields.io/github/last-commit/lukezaruba/stco)
+![GitHub issues](https://img.shields.io/github/issues/lukezaruba/stco)
+![PyPI - License](https://img.shields.io/pypi/l/stco)
+
 # stco
 
 A Python package for assessing the temporal stability of spatial clustering methods via spatial overlay analysis.
