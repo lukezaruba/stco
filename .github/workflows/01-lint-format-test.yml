@@ -25,13 +25,9 @@ jobs:
         run: |
           python -m unittest -v stco.tests.test_clustering
           python -m unittest -v stco.tests.test_overlay
-      - name: Upload coverage reports to Codecov
-        uses: codecov/codecov-action@v3
-        env:
-          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
   formatter:
-    name: Formatting with Black
+    name: Formatting & Code Coverage
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
