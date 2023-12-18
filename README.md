@@ -1,7 +1,6 @@
 ![PyPI - Version](https://img.shields.io/pypi/v/stco)
 ![CI - Test](https://github.com/lukezaruba/stco/actions/workflows/01-lint-format-test.yml/badge.svg)
 ![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)
-
 ![GitHub last commit](https://img.shields.io/github/last-commit/lukezaruba/stco)
 ![GitHub issues](https://img.shields.io/github/issues/lukezaruba/stco)
 ![PyPI - License](https://img.shields.io/pypi/l/stco)
@@ -43,8 +42,11 @@ For examples, refer to the `examples` folder within the repository, which contai
 For documentation, refer to the `examples` folder as well as the source code in the `stco` folder. In order to view documentation through the Python REPL or a notebook, you can use the following code on any given function, class, or method.
 
 ```python
-help(stco.clustering.TemporalADBSCAN)
-help(stco.overlay.simple_overlay)
-help(stco.overlay.weighted_overlay)
-help(stco.overlay.stcec)
+from stco.clustering import SnapshotADBSCAN
+from stco.overlay import simple_overlay, stcec, weighted_overlay
+
+help(SnapshotADBSCAN)
+help(simple_overlay)
+help(weighted_overlay)
+help(stcec)
 ```

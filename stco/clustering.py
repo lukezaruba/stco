@@ -34,7 +34,7 @@ from pandas import DataFrame, concat, to_datetime
 from tqdm import tqdm
 
 
-class TemporalADBSCAN:
+class SnapshotADBSCAN:
     def __init__(
         self,
         data: Union[DataFrame, GeoDataFrame],
@@ -47,7 +47,7 @@ class TemporalADBSCAN:
         **kwargs,
     ) -> None:
         """
-        Instantiates TemporalADBSCAN object to run snapshot-based A-DBSCAN.
+        Instantiates SnapshotADBSCAN object to run snapshot-based A-DBSCAN.
 
         Args:
             data (Union[DataFrame, GeoDataFrame]): Input point features.
