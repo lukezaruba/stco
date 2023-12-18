@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "stco"
-version = "0.1.1"
+version = "0.1.2"
 description = "Algorithms for analyzing the stability of spatial clusters over time"
 readme = "README.md"
 authors = [{ name = "Luke Zaruba", email = "lukeazaruba@gmail.com" }]
@@ -18,6 +18,7 @@ classifiers = [
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
     "Topic :: Scientific/Engineering"
 ]
 keywords = ["GIS", "geospatial", "spatiotemporal", "spatialdatascience"]

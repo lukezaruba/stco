@@ -37,7 +37,7 @@ from sklearn.datasets import make_blobs
 
 sys.path.append(str(Path(__file__).parent.parent.parent))
 
-from stco.clustering import TemporalADBSCAN  # noqa: E402
+from stco.clustering import SnapshotADBSCAN  # noqa: E402
 
 
 def _create_dataset():
@@ -77,12 +77,12 @@ def _create_dataset():
     return gdf
 
 
-class TestTemporalADBSCAN(unittest.TestCase):
+class TestSnapshotADBSCAN(unittest.TestCase):
     def setUp(self):
         # Data Set Up
         self.gdf = _create_dataset()
         seed(10)
-        self.tabds = TemporalADBSCAN(
+        self.sabds = SnapshotADBSCAN(
             self.gdf, "Y", 0.5, 0.05, pct_exact=0.5, reps=50, keep_solus=True
         )
 
@@ -92,7 +92,7 @@ class TestTemporalADBSCAN(unittest.TestCase):
 
     def test_fit_all(self):
         # Run Fit
-        footprints = self.tabds.fit_all()
+        footprints = self.sabds.fit_all()
 
         # Assert
         self.assertEqual(footprints.iloc[0]["geometry"].wkt, self.wkt_solu)

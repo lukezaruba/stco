@@ -10,7 +10,7 @@
 - **SPORADIC** < $n$% inclusion, Most recent step not included, Only included once
 - **INTENSIFYING** < $n$% inclusion, Most recent & second most recent steps included, Included > 1
 - **DIMINISHING** < $n$% inclusion, Most recent & second most recent steps not included, Included > 1, Must be some consecutive streak
-- **OCCASIONAL** < $n$% inclusion, Most recent step not included, Included > 1
+- **OCCASIONAL** < $n$% inclusion, Most recent & second most recent steps not included, Included > 1, No consecutive streak
 
 Can change the percentage as desired (defined here as $n$).
 
